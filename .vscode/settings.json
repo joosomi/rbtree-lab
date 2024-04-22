@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.ejs": "html",
+        "rbtree.h": "c",
+        "stdlib.h": "c"
+    }
+}
