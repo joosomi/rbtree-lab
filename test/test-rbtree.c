@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+//#define SENTINEL
 
 // new_rbtree should return rbtree struct with null root node
 void test_init(void) {
@@ -21,6 +22,7 @@ void test_init(void) {
 void test_insert_single(const key_t key) {
   rbtree *t = new_rbtree();
   node_t *p = rbtree_insert(t, key);
+  // printf("\n%d\n\n",p->key);
   assert(p != NULL);
   assert(t->root == p);
   assert(p->key == key);
