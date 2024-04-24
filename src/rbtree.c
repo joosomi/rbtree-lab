@@ -4,8 +4,10 @@
   // TODO: initialize struct if needed
   //초기화
 rbtree *new_rbtree(void) {
-  rbtree *t = (rbtree *)calloc(1, sizeof(rbtree));
-  t -> nil = (node_t *)calloc(1, sizeof(node_t));
+  // rbtree *t = (rbtree *)calloc(1, sizeof(rbtree));
+  // t -> nil = (node_t *)calloc(1, sizeof(node_t));
+  rbtree *t = (rbtree *)malloc(sizeof(rbtree));
+  t->nil = (node_t *)malloc(sizeof(node_t));
 
   t->root = t->nil;
   t->nil->color = RBTREE_BLACK;
@@ -23,8 +25,6 @@ void delete_post_order(rbtree *t, node_t *root){
   delete_post_order(t, root->right);
   free(root);
 }
-
-
 
 
 void delete_rbtree(rbtree *t) {
@@ -492,6 +492,8 @@ int rbtree_erase(rbtree *t, node_t *z){
     //대체하는 노드 y의 자식인 x가 y의 자리로 올라오면서 
     //이 x에 extra black 부여
   }
+  
+  free(z);
   return 0;
 }
 /////////////////////////////////////////////////////////////////////////////
