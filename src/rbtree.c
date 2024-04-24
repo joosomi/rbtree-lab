@@ -4,17 +4,36 @@
   // TODO: initialize struct if needed
   //초기화
 rbtree *new_rbtree(void) {
-  rbtree *p = (rbtree *)calloc(1, sizeof(rbtree));
-  p -> nil = (node_t *)calloc(1, sizeof(node_t));
-  p->root = p->nil;
-  p->nil->color = RBTREE_BLACK;
+  rbtree *t = (rbtree *)calloc(1, sizeof(rbtree));
+  t -> nil = (node_t *)calloc(1, sizeof(node_t));
 
-  return p;
+  t->root = t->nil;
+  t->nil->color = RBTREE_BLACK;
+
+  return t;
 }
 
 /////////////////////
+void delete_post_order(rbtree *t, node_t *root){
+  if (root== t->nil){
+    return;
+  }
+
+  delete_post_order(t, root->left);
+  delete_post_order(t, root->right);
+  free(root);
+}
+
+
+
+
 void delete_rbtree(rbtree *t) {
   // TODO: reclaim the tree nodes's memory
+  if (t==NULL){
+    return;
+  }
+  delete_post_order(t, t->root);
+  free(t->nil);
   free(t);
 }
 
@@ -476,21 +495,6 @@ int rbtree_erase(rbtree *t, node_t *z){
   return 0;
 }
 /////////////////////////////////////////////////////////////////////////////
-// int make_array(node_t *node, key_t *arr, int i ) {
-//   if (node == NULL) {
-//     return i;
-//   }
-
-//   arr[i] = node->key;
-//   i++;
-
-//   if (node->left != NULL) {
-//     i = make_array(node->left, arr, i);
-//   }
-
-
-// }
-
 //중위순회하면서 트리의 노드들을 배열에 저장하는 함수 
 //왼쪽 서브트리 -> 루트 노드 -> 오른쪽 서브트리
 void inorder(const rbtree *t, node_t *node, key_t *arr, int *i, size_t n){ 
