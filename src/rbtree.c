@@ -492,18 +492,20 @@ int rbtree_erase(rbtree *t, node_t *z){
 // }
 
 //중위순회하면서 트리의 노드들을 배열에 저장하는 함수 
-int inorder(const rbtree *t, node_t *node, key_t *arr, int i){ 
+//왼쪽 서브트리 -> 루트 노드 -> 오른쪽 서브트리
+void inorder(const rbtree *t, node_t *node, key_t *arr, int *i, size_t n){ 
   //현재 노드가 t->nil이면 
   if (node == t->nil) {
-    return i;
+    return ;
   }
-  //
-  i = inorder(t, node ->left, arr, i);
-  printf("%d ", i);
-  arr[i++] = node ->key;
-  i = inorder(t, node->right, arr, i);
-  printf("%d ", i);
-  return i;  
+  //왼쪽 서브트리 순회
+  inorder(t, node ->left, arr, i, n);
+  if (*i < n){
+      arr[(*i)++] = node ->key;
+  }
+  //오른쪽 서브트리 순회
+  inorder(t, node->right, arr, i, n );
+  //업데이트 된 인덱스 반환
 }
 
 //RBTREE to ARRAY
@@ -512,7 +514,11 @@ int rbtree_to_array(const rbtree *t, key_t *arr, const size_t n) {
   if (t->root == t->nil) {
     return -1 ;
   }
-  inorder(t, t->root, arr, 0);
+  //배열의 인덱스 관리 
+  int idx = 0;
+
+  //루트노드부터 중위 순회
+  inorder(t, t->root, arr, &idx, n );
   return 0;
 }
 
